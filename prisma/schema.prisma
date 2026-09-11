@@ -1,0 +1,292 @@
+generator client {
+  provider = "prisma-client"
+  output = "../src/generated/prisma"
+}
+datasource db {
+  provider = "postgresql"
+}
+enum JobStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+enum JobType {
+  IMAGE_RENDER
+  VIDEO_RENDER
+  PUBLISH
+  ANALYTICS_SYNC
+}
+enum PostStatus {
+  SCHEDULED
+  PUBLISHING
+  PUBLISHED
+  FAILED
+  CANCELLED
+}
+enum Platform {
+  PINTEREST
+  TIKTOK
+}
+enum Level {
+  INFO
+  WARNING
+  ERROR
+}
+enum FileCategory {
+  BOOK
+  IMAGE
+  VIDEO
+  TEMP
+}
+enum FileState {
+  ACTIVE
+  FAILED
+  DELETING
+}
+model User {
+  id String @id
+  name String
+  email String @unique
+  emailVerified Boolean @default(false)
+  image String?
+  isAdmin Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  sessions Session[]
+  accounts Account[]
+}
+model Session {
+  id String @id
+  expiresAt DateTime
+  token String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId])
+}
+model Account {
+  id String @id
+  accountId String
+  providerId String
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken String?
+  refreshToken String?
+  idToken String?
+  accessTokenExpiresAt DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope String?
+  password String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([userId])
+}
+model Verification {
+  id String @id
+  identifier String
+  value String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([identifier])
+}
+model RateLimit {
+  id String @id @default(cuid())
+  key String @unique
+  count Int
+  lastRequest BigInt
+}
+model Book {
+  id String @id @default(cuid())
+  title String
+  subtitle String?
+  asin String?
+  amazonUrl String?
+  description String @default("")
+  audience String @default("general")
+  category String?
+  language String @default("en")
+  status String @default("ACTIVE")
+  themes String[]
+  keywords String[]
+  contentAngles String[]
+  tone String?
+  seasonalStart DateTime?
+  seasonalEnd DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  assets BookAsset[]
+  content ContentItem[]
+}
+model StoredFile {
+  id String @id @default(cuid())
+  key String @unique
+  category FileCategory
+  state FileState @default(ACTIVE)
+  bytes BigInt
+  mimeType String
+  createdAt DateTime @default(now())
+  references FileReference[]
+  @@index([category, state, createdAt])
+}
+// ALL durable uses of a file must create this FK-backed reference before use.
+// This includes book originals, thumbnails, content, render inputs/outputs and scheduled posts.
+model FileReference {
+  id String @id @default(cuid())
+  fileId String
+  file StoredFile @relation(fields: [fileId], references: [id], onDelete: Restrict)
+  bookAssetId String?
+  bookAsset BookAsset? @relation(fields: [bookAssetId], references: [id], onDelete: Cascade)
+  contentId String?
+  content ContentItem? @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  scheduledPostId String?
+  scheduledPost ScheduledPost? @relation(fields: [scheduledPostId], references: [id], onDelete: Cascade)
+  jobId String?
+  job RenderJob? @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  @@index([fileId])
+}
+model BookAsset {
+  id String @id @default(cuid())
+  bookId String
+  book Book @relation(fields: [bookId], references: [id], onDelete: Restrict)
+  type String
+  name String
+  createdAt DateTime @default(now())
+  files FileReference[]
+}
+model ContentItem {
+  id String @id @default(cuid())
+  bookId String
+  book Book @relation(fields: [bookId], references: [id], onDelete: Restrict)
+  platform Platform
+  format String
+  title String
+  status String @default("DRAFT")
+  fingerprint String? @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  variants ContentVariant[]
+  jobs RenderJob[]
+  posts ScheduledPost[]
+  files FileReference[]
+}
+model ContentVariant {
+  id String @id @default(cuid())
+  contentId String
+  content ContentItem @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  data Json
+  createdAt DateTime @default(now())
+}
+model CreativeTemplate {
+  id String @id @default(cuid())
+  name String
+  platform Platform
+  format String
+  configuration Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model RenderJob {
+  id String @id @default(cuid())
+  type JobType
+  status JobStatus @default(PENDING)
+  contentId String?
+  content ContentItem? @relation(fields: [contentId], references: [id], onDelete: Restrict)
+  scheduledPostId String? @unique
+  scheduledPost ScheduledPost? @relation(fields: [scheduledPostId], references: [id], onDelete: Restrict)
+  attemptCount Int @default(0)
+  maxAttempts Int @default(3)
+  errorCode String?
+  errorMessage String?
+  criticalOperation Boolean @default(false)
+  requiresReconciliation Boolean @default(false)
+  availableAt DateTime @default(now())
+  createdAt DateTime @default(now())
+  startedAt DateTime?
+  completedAt DateTime?
+  leaseExpiresAt DateTime?
+  workerId String?
+  files FileReference[]
+  @@index([status, availableAt])
+}
+model ScheduledPost {
+  id String @id @default(cuid())
+  platform Platform
+  contentId String
+  content ContentItem @relation(fields: [contentId], references: [id], onDelete: Restrict)
+  platformAccountId String?
+  platformAccount PlatformAccount? @relation(fields: [platformAccountId], references: [id], onDelete: Restrict)
+  scheduledAt DateTime
+  timezone String @default("UTC")
+  status PostStatus @default(SCHEDULED)
+  attemptCount Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  job RenderJob?
+  attempts PublishAttempt[]
+  files FileReference[]
+  @@index([status, scheduledAt])
+}
+model PublishAttempt {
+  id String @id @default(cuid())
+  scheduledPostId String
+  post ScheduledPost @relation(fields: [scheduledPostId], references: [id], onDelete: Restrict)
+  status String
+  errorMessage String?
+  externalPostId String?
+  createdAt DateTime @default(now())
+  completedAt DateTime?
+}
+model PlatformAccount {
+  id String @id @default(cuid())
+  platform Platform @unique
+  displayName String?
+  externalAccountId String?
+  connected Boolean @default(false)
+  encryptedAccessToken String?
+  encryptedRefreshToken String?
+  tokenExpiresAt DateTime?
+  lastSuccessfulRequestAt DateTime?
+  lastSyncAt DateTime?
+  lastError String?
+  posts ScheduledPost[]
+  analytics AnalyticsSnapshot[]
+}
+model AnalyticsSnapshot {
+  id String @id @default(cuid())
+  platformAccountId String
+  account PlatformAccount @relation(fields: [platformAccountId], references: [id], onDelete: Restrict)
+  externalPostId String
+  metrics Json
+  collectedAt DateTime @default(now())
+}
+model AppSetting {
+  key String @id
+  value Json
+  updatedAt DateTime @updatedAt
+}
+model WorkerHeartbeat {
+  id String @id
+  startedAt DateTime @default(now())
+  lastSeenAt DateTime @default(now())
+  lastActivityAt DateTime?
+  schedulerEnabled Boolean @default(false)
+  version String?
+}
+model SystemEvent {
+  id String @id @default(cuid())
+  level Level
+  source String
+  message String
+  jobId String?
+  platform Platform?
+  actorId String?
+  createdAt DateTime @default(now())
+  @@index([createdAt])
+  @@index([level, source, createdAt])
+}
