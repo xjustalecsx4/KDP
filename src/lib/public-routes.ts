@@ -48,6 +48,7 @@ export function storePath(path: string, language: string) {
     target === "/" ||
     target === "" ||
     target === "/blog" ||
+    target === "/privacy" ||
     target.startsWith("/blog/")
   )
     return (
@@ -59,6 +60,7 @@ export function isPublicPage(path: string) {
   const parts = path.split("/").filter(Boolean);
   if (!languages.includes(parts[0] as StoreLanguage)) return false;
   if (parts.length === 1) return true;
+  if (parts.length === 2 && parts[1] === "privacy") return true;
   if (parts[1] !== "blog") return false;
   return (
     parts.length === 2 || (parts.length === 3 && !!findArticleKey(parts[2]))

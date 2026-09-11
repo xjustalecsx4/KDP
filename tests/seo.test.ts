@@ -18,6 +18,10 @@ describe("public SEO routing and launch controls", () => {
       "/ro/blog/un-colt-doar-pentru-citit",
     );
     expect(storePath("/admin", "ro")).toBe("/admin");
+    expect(storePath("/privacy", "en")).toBe("/en/privacy");
+    expect(storePath("/en/privacy", "ro")).toBe("/ro/privacy");
+    expect(isPublicPage("/ro/privacy")).toBe(true);
+    expect(isPublicPage("/en/privacy/private")).toBe(false);
     expect(findArticleKey("unknown")).toBeUndefined();
     expect(isPublicPage("/en/admin")).toBe(false);
   });
@@ -30,14 +34,14 @@ describe("public SEO routing and launch controls", () => {
     vi.stubEnv("SITE_URL", "https://preview.local");
     expect(indexingEnabled()).toBe(false);
   });
-  it("generates only ten public canonical URLs and reciprocal alternates when launched", () => {
+  it("generates public canonical URLs and reciprocal alternates when launched", () => {
     vi.stubEnv("SEO_INDEXING_ENABLED", "true");
     vi.stubEnv("SITE_URL", "https://books.example.org");
     vi.stubEnv("APP_URL", "https://books.example.org");
     expect(indexingEnabled()).toBe(true);
     const entries = sitemap();
-    expect(entries).toHaveLength(10);
-    expect(new Set(entries.map((x) => x.url)).size).toBe(10);
+    expect(entries).toHaveLength(12);
+    expect(new Set(entries.map((x) => x.url)).size).toBe(12);
     expect(
       entries.every(
         (x) => !x.url.includes("/admin") && !x.url.includes("/api/"),

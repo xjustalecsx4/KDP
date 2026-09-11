@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const paths = [
     "/",
     "/blog",
+    "/privacy",
     ...Object.keys(articleRoutes).map((key) => "/blog/" + key),
   ];
   return paths.flatMap((path) =>

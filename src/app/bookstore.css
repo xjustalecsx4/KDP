@@ -576,6 +576,7 @@
 }
 .store-footer > div:nth-child(2) {
   display: flex;
+  flex-wrap: wrap;
   gap: 22px;
   font-size: 11px;
 }
@@ -618,6 +619,12 @@
 .store-article h1 {
   font-size: 56px;
 }
+.privacy-policy { overflow-wrap: anywhere; }
+.privacy-policy h1 { font-size: clamp(2rem, 5vw, 3.5rem); margin: 30px 0 16px; }
+.privacy-policy section { margin-top: 32px; }
+.privacy-policy h2 { font-size: 1.5rem; margin-bottom: 12px; }
+.privacy-policy p { font-size: 1rem; line-height: 1.8; margin-bottom: 16px; }
+.privacy-policy a { text-decoration: underline; text-underline-offset: 4px; }
 .article-lead {
   font:
     21px/1.7 Georgia,

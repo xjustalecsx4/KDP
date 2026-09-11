@@ -84,6 +84,7 @@ export default async function PublicLayout({
           <Link href="/#colectie">Colecția</Link>
           <Link href="/blog">Jurnal</Link>
           <Link href="/admin">Administrare</Link>
+          <Link href="/privacy">{locale === "ro" ? "Confidențialitate" : "Privacy policy"}</Link>
         </div>
         <span>Cu loc pentru încă o poveste.</span>
       </footer>
