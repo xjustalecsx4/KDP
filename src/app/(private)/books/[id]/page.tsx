@@ -44,17 +44,83 @@ export default async function BookDetail({
         </Link>
       </div>
       <nav className="tabs">
-        {["overview", "assets", "content", "analytics"].map((t) => (
+        {["overview", "assets", "kdp", "content", "analytics"].map((t) => (
           <Link
             className={tab === t ? "selected" : ""}
             href={`/books/${id}?tab=${t}`}
             key={t}
           >
-            {t.charAt(0).toUpperCase() + t.slice(1)}
+            {t === "kdp" ? "KDP" : t.charAt(0).toUpperCase() + t.slice(1)}
           </Link>
         ))}
       </nav>
-      {tab === "assets" ? (
+      {tab === "kdp" ? (
+        <section className="panel" style={{ maxWidth: 850 }}>
+          <SectionTitle
+            title="KDP"
+            description="Save a description and a download link for this book. The download is hosted at the URL you provide."
+          />
+          <ContentForm operation="save-kdp" id={id} label="Save KDP details">
+            <label>
+              KDP description
+              <textarea
+                name="kdpDescription"
+                aria-label="KDP description"
+                rows={8}
+                maxLength={10000}
+                defaultValue={book.kdpDescription}
+                placeholder="Describe the book, manuscript or downloadable resource."
+              />
+            </label>
+            <label>
+              Download URL
+              <input
+                type="url"
+                name="kdpDownloadUrl"
+                maxLength={2048}
+                defaultValue={book.kdpDownloadUrl}
+                placeholder="https://…"
+              />
+            </label>
+            <label className="check">
+              <input
+                type="checkbox"
+                name="kdpPublic"
+                value="yes"
+                defaultChecked={book.kdpPublic}
+              />{" "}
+              Publish on the public website
+            </label>
+            <p>
+              When checked, the book title, KDP description and download URL
+              become visible to visitors. Uncheck and save to make them private
+              again.
+            </p>
+          </ContentForm>
+          {book.kdpDescription && (
+            <div
+              style={{
+                marginTop: 24,
+                whiteSpace: "pre-wrap",
+                overflowWrap: "anywhere",
+              }}
+            >
+              {book.kdpDescription}
+            </div>
+          )}
+          {book.kdpDownloadUrl && (
+            <a
+              className="button secondary"
+              style={{ marginTop: 16 }}
+              href={book.kdpDownloadUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open download link ↗
+            </a>
+          )}
+        </section>
+      ) : tab === "assets" ? (
         <>
           <section className="panel">
             <SectionTitle

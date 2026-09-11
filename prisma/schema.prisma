@@ -102,6 +102,9 @@ model RateLimit {
   lastRequest BigInt
 }
 model Book {
+  kdpDescription String @default("")
+  kdpDownloadUrl String @default("")
+  kdpPublic Boolean @default(false)
   id String @id @default(cuid())
   title String
   subtitle String?

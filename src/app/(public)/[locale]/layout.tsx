@@ -60,6 +60,7 @@ export default async function PublicLayout({
         </Link>
         <nav aria-label="Navigare librărie">
           <Link href="/#colectie">Colecția</Link>
+          <Link href="/#kdp">KDP</Link>
           <Link href="/blog">Jurnal</Link>
           <Link href="/#poveste">Povestea noastră</Link>
         </nav>

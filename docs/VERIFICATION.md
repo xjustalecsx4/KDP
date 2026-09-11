@@ -1,5 +1,9 @@
 # Verification
 
+KDP addition: fifth migration applied to local PostgreSQL and migration tests. Production build,
+TypeScript and lint pass. 53 unit/migration tests pass; browser coverage adds private persistence,
+explicit publication, public download link rendering and withdrawal. The KDP browser test passes, including deletion of its test record; the four existing non-rendering browser tests also pass. Test resources are removed afterward.
+
 Latest SEO verification: production build, TypeScript and ESLint pass; 50 unit/migration tests pass (five opt-in PostgreSQL tests not rerun for this SEO-only change). Four production browser tests pass: Admin, bilingual bookstore, security and SEO. The optional render workflow was not rerun; its prior result is below. A second loopback-only instance verified launch mode: public index/follow, ten canonical sitemap entries, and private noindex. It was stopped after verification.
 
 Prior Pinterest milestone: 50 unit/integration tests and all four then-existing browser tests passed.

@@ -1,3 +1,4 @@
+import { PublicKdp } from "@/components/public-kdp";
 import { homeCopy, pageMetadata } from "@/lib/seo";
 import { getStoreLocale, localize } from "@/server/bookstore-locale";
 import Link from "next/link";
@@ -90,6 +91,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
+      <PublicKdp locale={locale} />
       <section className="store-story" id="poveste">
         <span className="story-symbol" aria-hidden="true">
           ✳

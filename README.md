@@ -58,7 +58,7 @@ and `ffmpeg -version` in a new terminal. No container runtime is needed.
    `STORAGE_PATH`. Generate `AUTH_SECRET` using a password manager or `openssl rand -base64 48`.
    Never reuse example credentials. URL-encode special characters in database credentials.
 
-4. Generate the client and apply all four migrations:
+4. Generate the client and apply all five migrations:
 
    ```sh
    npm run db:generate
@@ -96,8 +96,8 @@ not an empty database. Login reports setup requirements when the essential envir
 Open `/` for **The Quiet Bookshelf** (redirects to `/en`). Public pages use crawlable
 English `/en` and Romanian `/ro` URLs, with journals at `/en/blog` and `/ro/blog`,
 and three original bilingual articles. The private dashboard is now at `/dashboard`;
-administration remains at `/admin`. Public pages do not expose private database books
-or test uploads. The collection is explicitly marked as coming soon until real titles
+administration remains at `/admin`. Public pages expose only KDP resources explicitly published by the administrator; private book fields
+and uploads remain protected. The collection is explicitly marked as coming soon until real titles
 and Amazon links are supplied. Journal content currently lives in `src/lib/journal.ts`,
 with English copy in `src/lib/bookstore-translations.ts`; there is no blog editor yet.
 See [SEO implementation and launch plan](docs/SEO.md) for canonical URLs, indexing controls and the editorial plan.
@@ -262,3 +262,11 @@ Phase 2 Pinterest implementation was explicitly approved. Live Pinterest verific
 ## Pinterest and security
 
 See [Pinterest setup and verification](docs/PINTEREST.md) and [security controls](docs/SECURITY.md).
+
+## KDP descriptions and downloads
+
+Open Books, select a book, then choose its KDP tab. Add a description and HTTPS download URL.
+Save to keep it private, or select Publish on the public website to expose the title, KDP description
+and link in /en#kdp and /ro#kdp. Uncheck and save to withdraw the resource. Descriptions are displayed
+as written in both languages. The URL points to a file hosted elsewhere; this feature does not upload
+files or alter the hosting provider’s permissions. Existing records are private by default.

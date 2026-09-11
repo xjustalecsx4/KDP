@@ -1,4 +1,5 @@
 "use server";
+import { kdpSchema } from "@/lib/kdp";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "./authorization";
@@ -32,7 +33,15 @@ export async function contentAction(
       form.get("confirmed") !== "yes"
     )
       throw new ActionError("Confirm deletion first.");
-    if (operation === "save-book") {
+    if (operation === "save-kdp") {
+      const data = kdpSchema.parse({
+        kdpDescription: String(form.get("kdpDescription") ?? ""),
+        kdpDownloadUrl: String(form.get("kdpDownloadUrl") ?? "").trim(),
+        kdpPublic: form.get("kdpPublic") === "yes",
+      });
+      await db.book.update({ where: { id: id() }, data });
+      message = "KDP details saved successfully.";
+    } else if (operation === "save-book") {
       const data: Record<string, unknown> = {};
       for (const key of Object.keys(bookSchema.shape))
         data[key] = ["themes", "keywords", "contentAngles"].includes(key)

@@ -22,7 +22,18 @@ beforeAll(async () => {
       "utf8",
     ),
   );
-  await pg.exec(await readFile("prisma/migrations/202609110004_file_order/migration.sql", "utf8"));
+  await pg.exec(
+    await readFile(
+      "prisma/migrations/202609110004_file_order/migration.sql",
+      "utf8",
+    ),
+  );
+  await pg.exec(
+    await readFile(
+      "prisma/migrations/202609110005_kdp_resources/migration.sql",
+      "utf8",
+    ),
+  );
   await pg.exec(`INSERT INTO "Book" (id,title,themes,keywords,"contentAngles","updatedAt") VALUES ('book','Test book','{}','{}','{}',NOW());
     INSERT INTO "BookAsset" (id,"bookId",type,name) VALUES ('asset','book','COVER','Cover');
     INSERT INTO "StoredFile" (id,key,category,bytes,"mimeType") VALUES ('original','books/original.png','BOOK',100,'image/png'),('orphan','generated/orphan.png','IMAGE',100,'image/png');`);

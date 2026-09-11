@@ -1,5 +1,5 @@
 "use client";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   contentAction,
@@ -19,15 +19,21 @@ export function ContentForm({
   children?: React.ReactNode;
   confirmation?: string;
 }) {
-  const [state, action, pending] = useActionState(async (previous: ContentActionResult, data: FormData) => { showFeedback(null); const result = await contentAction(previous, data); showFeedback(result); return result; }, {
-    ok: false,
-    message: "",
-  } as ContentActionResult);
-  const [open, setOpen] = useState(false);
   const router = useRouter();
-  useEffect(() => {
-    if (state.ok && state.href) router.push(state.href);
-  }, [state, router]);
+  const [, action, pending] = useActionState(
+    async (previous: ContentActionResult, data: FormData) => {
+      showFeedback(null);
+      const result = await contentAction(previous, data);
+      showFeedback(result);
+      if (result.ok && result.href) router.push(result.href);
+      return result;
+    },
+    {
+      ok: false,
+      message: "",
+    } as ContentActionResult,
+  );
+  const [open, setOpen] = useState(false);
   return (
     <div className="content-form-wrap">
       {confirmation && !open ? (

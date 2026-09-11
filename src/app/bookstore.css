@@ -770,3 +770,5 @@
 }
 
 .article-breadcrumbs{font-size:11px;line-height:1.8;color:#626e5e;margin-bottom:25px}.article-breadcrumbs a{text-decoration:underline}.article-byline{font-size:12px;margin:-8px 0 20px}.store-article h1{font-size:clamp(36px,4.5vw,56px)}
+
+.kdp-resource-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.kdp-resource{border:1px solid #d9dccb;padding:28px;background:#f2f1e7;min-width:0}.kdp-resource h3{overflow-wrap:anywhere}.kdp-resource p{margin:18px 0;line-height:1.8}.kdp-resource small{margin-top:12px}@media(max-width:650px){.kdp-resource-grid{grid-template-columns:1fr}.store-header nav{flex-wrap:wrap}}

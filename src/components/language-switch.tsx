@@ -1,6 +1,5 @@
 "use client";
 // A full navigation refreshes the root HTML language and nonce-bound document.
-/* eslint-disable @next/next/no-html-link-for-pages */
 import { usePathname } from "next/navigation";
 import { storePath } from "@/lib/public-routes";
 export function LanguageSwitch() {
