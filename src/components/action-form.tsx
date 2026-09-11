@@ -1,6 +1,7 @@
 "use client";
 import { useActionState, useState } from "react";
-import { adminAction } from "@/server/actions";
+import { adminAction, type ActionResult } from "@/server/actions";
+import { showFeedback } from "./feedback";
 export function ActionForm({
   area,
   operation,
@@ -22,7 +23,7 @@ export function ActionForm({
   confirmation?: string;
   children?: React.ReactNode;
 }) {
-  const [state, action, pending] = useActionState(adminAction, {
+  const [, action, pending] = useActionState(async (previous: ActionResult, data: FormData) => { showFeedback(null); const result = await adminAction(previous, data); showFeedback(result); return result; }, {
     ok: false,
     message: "",
   });
@@ -75,14 +76,6 @@ export function ActionForm({
             )}
           </div>
         </form>
-      )}
-      {state.message && (
-        <p
-          role={state.ok ? "status" : "alert"}
-          className={`feedback ${state.ok ? "success" : "error"}`}
-        >
-          {state.message}
-        </p>
       )}
     </div>
   );

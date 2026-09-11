@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./content.css";
 :root {
   --ink: #243832;
   --muted: #7b8782;

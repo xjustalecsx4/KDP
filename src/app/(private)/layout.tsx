@@ -1,5 +1,6 @@
 import { requireAdmin } from "@/server/authorization";
 import { Navigation } from "@/components/navigation";
+import { Feedback } from "@/components/feedback";
 export const dynamic = "force-dynamic";
 export default async function PrivateLayout({
   children,
@@ -10,6 +11,7 @@ export default async function PrivateLayout({
   return (
     <div className="app-shell">
       <Navigation name={user.name} />
+      <Feedback />
       <main className="main">
         <header className="topbar">
           <span>

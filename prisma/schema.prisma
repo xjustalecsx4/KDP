@@ -138,6 +138,8 @@ model StoredFile {
 // This includes book originals, thumbnails, content, render inputs/outputs and scheduled posts.
 model FileReference {
   id String @id @default(cuid())
+  role String @default("SOURCE")
+  position Int @default(0)
   fileId String
   file StoredFile @relation(fields: [fileId], references: [id], onDelete: Restrict)
   bookAssetId String?
@@ -203,6 +205,7 @@ model RenderJob {
   maxAttempts Int @default(3)
   errorCode String?
   errorMessage String?
+  input Json?
   criticalOperation Boolean @default(false)
   requiresReconciliation Boolean @default(false)
   availableAt DateTime @default(now())

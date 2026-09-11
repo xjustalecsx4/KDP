@@ -7,6 +7,7 @@ import {
   mkdir,
   writeFile,
   rm,
+  readFile,
 } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { db } from "@/lib/db";
@@ -33,8 +34,42 @@ export function resolveStorageKey(root: string, key: string) {
 }
 export interface StorageProvider {
   remove(key: string): Promise<void>;
+  read(key: string): Promise<Buffer>;
+  write(key: string, data: Buffer): Promise<void>;
 }
 export class LocalStorage implements StorageProvider {
+  async read(key: string) {
+    const root = storageRoot();
+    const target = resolveStorageKey(root, key);
+    let current = root;
+    if ((await lstat(root)).isSymbolicLink())
+      throw new ActionError("Storage root cannot be a link.");
+    for (const part of key.split("/")) {
+      current = path.join(/* turbopackIgnore: true */ current, part);
+      if ((await lstat(current)).isSymbolicLink())
+        throw new ActionError("Linked files cannot be read.");
+    }
+    const canonicalRoot = await realpath(/* turbopackIgnore: true */ root);
+    const canonical = await realpath(/* turbopackIgnore: true */ target);
+    if (!canonical.startsWith(canonicalRoot + path.sep))
+      throw new ActionError("Invalid storage path.");
+    return readFile(/* turbopackIgnore: true */ canonical);
+  }
+  async write(key: string, data: Buffer) {
+    const root = storageRoot();
+    const target = resolveStorageKey(root, key);
+    const parent = path.dirname(target);
+    if (
+      (await lstat(root)).isSymbolicLink() ||
+      (await lstat(parent)).isSymbolicLink()
+    )
+      throw new ActionError("Linked storage directories are not allowed.");
+    const canonicalRoot = await realpath(/* turbopackIgnore: true */ root);
+    const canonicalParent = await realpath(/* turbopackIgnore: true */ parent);
+    if (!canonicalParent.startsWith(canonicalRoot + path.sep))
+      throw new ActionError("Invalid storage directory.");
+    await writeFile(target, data, { flag: "wx" });
+  }
   async remove(key: string) {
     const root = storageRoot();
     const target = resolveStorageKey(root, key);
