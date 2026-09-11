@@ -35,6 +35,52 @@ export const english: Record<string, string> = {
   "Povești de descoperit": "Stories to discover",
   "Spațiu pentru creativitate": "Room for creativity",
   "Bucuria lucrurilor simple": "Joy in the little things",
+  "STUDIO DE CĂRȚI, PRINTABLES ȘI RESURSE KDP":
+    "BOOKS, PRINTABLES & KDP RESOURCE STUDIO",
+  "Cărți liniștite.": "Quiet books.",
+  "Idei gata de ": "Ideas ready to ",
+  "publicat.": "publish.",
+  "Un spațiu creativ pentru caiete, pagini de colorat, jurnale și resurse descărcabile construite pentru autori, cititori și proiecte KDP.":
+    "A creative space for notebooks, coloring pages, journals, and downloadable resources built for authors, readers, and KDP projects.",
+  "Vezi resursele KDP": "View KDP resources",
+  "Pentru proiecte mici care pot deveni rafturi întregi.":
+    "For small projects that can become whole shelves.",
+  "UN RAFT LINIȘTIT · MULTE FORMATE CREATIVE":
+    "ONE QUIET SHELF · MANY CREATIVE FORMATS",
+  "Cărți și caiete": "Books and notebooks",
+  "Pagini de colorat": "Coloring pages",
+  "Resurse KDP publicabile": "Publishable KDP resources",
+  "CE CREȘTE PE RAFT": "WHAT GROWS ON THE SHELF",
+  "Un studio pentru produse digitale cu suflet.":
+    "A studio for digital products with a pulse.",
+  "Potrivit pentru KDP": "KDP friendly",
+  "Concepte de carte": "Book concepts",
+  "Idei pentru jurnale, caiete de activități, cărți de colorat și resurse creative care pot porni dintr-o singură temă.":
+    "Ideas for journals, activity notebooks, coloring books, and creative resources that can grow from a single theme.",
+  "Pagini și pachete": "Pages and packs",
+  "Secțiuni organizate pentru descrieri, preview-uri și linkuri de descărcare, publicate doar când alegi tu.":
+    "Organized sections for descriptions, previews, and download links, published only when you choose.",
+  "Descărcări KDP": "KDP downloads",
+  "Freebies, bonusuri și fișiere utile pentru cititori sau pentru promovarea titlurilor create în workspace.":
+    "Freebies, bonuses, and useful files for readers or for promoting the titles created in the workspace.",
+  "Promovare calmă": "Calm promotion",
+  "Un loc pregătit pentru articole, resurse și campanii Pinterest, fără să amestecăm partea publică cu administrarea privată.":
+    "A place prepared for articles, resources, and Pinterest campaigns, while keeping the public site separate from private administration.",
+  "COLECȚIA ÎN LUCRU": "THE WORK-IN-PROGRESS COLLECTION",
+  "Rafturi gândite pentru citit, scris și creat.":
+    "Shelves designed for reading, writing, and making.",
+  "De la o idee mică la un produs publicabil.":
+    "From a small idea to a publishable product.",
+  "Aici vor apărea cărți de colorat, caiete creative, jurnale și resurse bonus. Fiecare titlu poate avea propria descriere KDP și propriul link de descărcare.":
+    "Coloring books, creative notebooks, journals, and bonus resources will appear here. Each title can have its own KDP description and download link.",
+  "FILOZOFIA ACESTUI STUDIO": "THE STUDIO PHILOSOPHY",
+  "Unele produse merită": "Some products are worth",
+  "construite ": "building ",
+  "O copertă clară. O descriere bună. O pagină bonus care chiar ajută. Site-ul public rămâne cald și simplu, iar workspace-ul se ocupă de partea grea: conținut, coadă de lucru, fișiere și publicare.":
+    "A clear cover. A good description. A bonus page that actually helps. The public site stays warm and simple, while the workspace handles the heavy work: content, queues, files, and publishing.",
+  "JURNALUL STUDIOULUI": "THE STUDIO JOURNAL",
+  "Idei pentru pagini, rafturi și lansări.":
+    "Ideas for pages, shelves, and launches.",
   "PE RAFTURILE NOASTRE": "ON OUR BOOKSHELVES",
   "Următoarea ta mică bucurie.": "Your next little delight.",
   "Colecție în pregătire": "Collection coming soon",

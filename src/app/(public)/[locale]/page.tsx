@@ -2,7 +2,16 @@ import { PublicKdp } from "@/components/public-kdp";
 import { homeCopy, pageMetadata } from "@/lib/seo";
 import { getStoreLocale, localize } from "@/server/bookstore-locale";
 import Link from "next/link";
-import { ArrowRight, BookOpen, Pencil, Leaf } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpen,
+  CalendarDays,
+  Download,
+  Layers3,
+  Leaf,
+  Pencil,
+  Sparkles,
+} from "lucide-react";
 import { BookshelfArt } from "@/components/bookshelf-art";
 import { articles } from "@/lib/journal";
 export async function generateMetadata() {
@@ -21,62 +30,111 @@ export default async function Home() {
       <section className="store-hero">
         <div className="hero-copy">
           <span className="store-eyebrow">
-            BINE AI VENIT ÎN COLȚUL NOSTRU DE LUME
+            STUDIO DE CĂRȚI, PRINTABLES ȘI RESURSE KDP
           </span>
           <h1>
-            Mai puțin zgomot.
+            Cărți liniștite.
             <br />
-            Mai multe <em>pagini.</em>
+            Idei gata de <em>publicat.</em>
           </h1>
           <p>
-            Cărți de răsfoit, pagini de colorat și loc pentru ideile tale. Un
-            mic refugiu pentru curiozitate și bucuria de a crea.
+            Un spațiu creativ pentru caiete, pagini de colorat, jurnale și
+            resurse descărcabile construite pentru autori, cititori și proiecte
+            KDP.
           </p>
           <div className="store-actions">
-            <Link className="store-button" href="#colectie">
-              Descoperă colecția <ArrowRight size={17} />
+            <Link className="store-button" href="#kdp">
+              Vezi resursele KDP <ArrowRight size={17} />
             </Link>
             <Link className="store-text-link" href="/blog">
               Răsfoiește jurnalul ↗
             </Link>
           </div>
           <span className="hero-footnote">
-            Fă-ți un ceai. Rămâi cât îți place.
+            Pentru proiecte mici care pot deveni rafturi întregi.
           </span>
         </div>
         <div className="hero-illustration">
           <BookshelfArt />
           <span className="art-caption">
-            A LITTLE SPACE FOR BIG IMAGINATIONS
+            UN RAFT LINIȘTIT · MULTE FORMATE CREATIVE
           </span>
         </div>
       </section>
       <div className="store-values">
         <span>
-          <BookOpen /> Povești de descoperit
+          <BookOpen /> Cărți și caiete
         </span>
         <span>
-          <Pencil /> Spațiu pentru creativitate
+          <Pencil /> Pagini de colorat
         </span>
         <span>
-          <Leaf /> Bucuria lucrurilor simple
+          <Leaf /> Resurse KDP publicabile
         </span>
       </div>
+      <section className="store-section studio-panel" id="studio">
+        <div className="store-section-heading">
+          <div>
+            <span className="store-eyebrow">CE CREȘTE PE RAFT</span>
+            <h2>Un studio pentru produse digitale cu suflet.</h2>
+          </div>
+          <span className="store-tag">Potrivit pentru KDP</span>
+        </div>
+        <div className="studio-grid">
+          <article>
+            <Sparkles />
+            <span>01</span>
+            <h3>Concepte de carte</h3>
+            <p>
+              Idei pentru jurnale, caiete de activități, cărți de colorat și
+              resurse creative care pot porni dintr-o singură temă.
+            </p>
+          </article>
+          <article>
+            <Layers3 />
+            <span>02</span>
+            <h3>Pagini și pachete</h3>
+            <p>
+              Secțiuni organizate pentru descrieri, preview-uri și linkuri de
+              descărcare, publicate doar când alegi tu.
+            </p>
+          </article>
+          <article>
+            <Download />
+            <span>03</span>
+            <h3>Descărcări KDP</h3>
+            <p>
+              Freebies, bonusuri și fișiere utile pentru cititori sau pentru
+              promovarea titlurilor create în workspace.
+            </p>
+          </article>
+          <article>
+            <CalendarDays />
+            <span>04</span>
+            <h3>Promovare calmă</h3>
+            <p>
+              Un loc pregătit pentru articole, resurse și campanii Pinterest,
+              fără să amestecăm partea publică cu administrarea privată.
+            </p>
+          </article>
+        </div>
+      </section>
       <section className="store-section" id="colectie">
         <div className="store-section-heading">
           <div>
-            <span className="store-eyebrow">PE RAFTURILE NOASTRE</span>
-            <h2>Următoarea ta mică bucurie.</h2>
+            <span className="store-eyebrow">COLECȚIA ÎN LUCRU</span>
+            <h2>Rafturi gândite pentru citit, scris și creat.</h2>
           </div>
           <span className="store-tag">Colecție în pregătire</span>
         </div>
         <div className="collection-intro">
           <div className="collection-number">01 — 03</div>
           <div>
-            <h3>Un raft nou începe cu grijă.</h3>
+            <h3>De la o idee mică la un produs publicabil.</h3>
             <p>
-              Pregătim aici o selecție de cărți și pagini creative. Revino
-              pentru titluri, coperți și detalii despre fiecare carte.
+              Aici vor apărea cărți de colorat, caiete creative, jurnale și
+              resurse bonus. Fiecare titlu poate avea propria descriere KDP și
+              propriul link de descărcare.
             </p>
             <Link className="store-text-link" href="/blog">
               Până atunci, intră în jurnal <ArrowRight size={16} />
@@ -97,29 +155,29 @@ export default async function Home() {
           ✳
         </span>
         <div>
-          <span className="store-eyebrow">FILOZOFIA ACESTUI MIC COLȚ</span>
+          <span className="store-eyebrow">FILOZOFIA ACESTUI STUDIO</span>
           <h2>
-            Unele lucruri merită
+            Unele produse merită
             <br />
-            făcute <em>pe îndelete.</em>
+            construite <em>pe îndelete.</em>
           </h2>
           <p>
-            O pagină citită dimineața. Un creion ales după culoare. O idee
-            notată înainte să se piardă. Acesta este locul pe care îl imaginăm:
-            o librărie pentru toate aceste mici momente.
+            O copertă clară. O descriere bună. O pagină bonus care chiar ajută.
+            Site-ul public rămâne cald și simplu, iar workspace-ul se ocupă de
+            partea grea: conținut, coadă de lucru, fișiere și publicare.
           </p>
         </div>
         <span className="story-margin">
-          LESS SCROLLING
+          FROM IDEA
           <br />
-          MORE WANDERING
+          TO SHELF
         </span>
       </section>
       <section className="store-section">
         <div className="store-section-heading">
           <div>
-            <span className="store-eyebrow">JURNALUL LIBRĂRIEI</span>
-            <h2>De citit cu o ceașcă alături.</h2>
+            <span className="store-eyebrow">JURNALUL STUDIOULUI</span>
+            <h2>Idei pentru pagini, rafturi și lansări.</h2>
           </div>
           <Link className="store-text-link" href="/blog">
             Toate articolele <ArrowRight size={16} />
