@@ -93,13 +93,14 @@ not an empty database. Login reports setup requirements when the essential envir
 
 ### Public bookshop preview
 
-Open `/` for **The Quiet Bookshelf**, the public-facing bookshop design. It includes
-an English/Romanian language switch with a persistent cookie, a journal at `/blog`,
+Open `/` for **The Quiet Bookshelf** (redirects to `/en`). Public pages use crawlable
+English `/en` and Romanian `/ro` URLs, with journals at `/en/blog` and `/ro/blog`,
 and three original bilingual articles. The private dashboard is now at `/dashboard`;
 administration remains at `/admin`. Public pages do not expose private database books
 or test uploads. The collection is explicitly marked as coming soon until real titles
 and Amazon links are supplied. Journal content currently lives in `src/lib/journal.ts`,
 with English copy in `src/lib/bookstore-translations.ts`; there is no blog editor yet.
+See [SEO implementation and launch plan](docs/SEO.md) for canonical URLs, indexing controls and the editorial plan.
 Search indexing remains disabled while the installation is a local preview.
 
 The requested GitHub destination is `https://github.com/xjustalecsx4/KDP`.

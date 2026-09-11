@@ -1,3 +1,5 @@
+import { indexingEnabled } from "@/lib/seo";
+import { isPublicPage } from "@/lib/public-routes";
 import { NextRequest, NextResponse } from "next/server";
 export function proxy(request: NextRequest) {
   const origin = process.env.APP_URL
@@ -29,9 +31,18 @@ export function proxy(request: NextRequest) {
   ].join("; ");
   const headers = new Headers(request.headers);
   headers.set("x-nonce", nonce);
+  headers.set(
+    "x-store-locale",
+    request.nextUrl.pathname === "/ro" ||
+      request.nextUrl.pathname.startsWith("/ro/")
+      ? "ro"
+      : "en",
+  );
   headers.set("Content-Security-Policy", csp);
   const response = NextResponse.next({ request: { headers } });
   response.headers.set("Content-Security-Policy", csp);
+  if (!indexingEnabled() || !isPublicPage(request.nextUrl.pathname))
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
   response.headers.set("Cache-Control", "private, no-store");
   response.headers.set("Referrer-Policy", "no-referrer");
   if (origin.startsWith("https:"))

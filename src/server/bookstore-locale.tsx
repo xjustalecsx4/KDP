@@ -1,5 +1,6 @@
+import { storePath } from "@/lib/public-routes";
 import "server-only";
-import { cookies } from "next/headers";
+import { headers } from "next/headers";
 import {
   cloneElement,
   isValidElement,
@@ -7,10 +8,8 @@ import {
   type ReactElement,
 } from "react";
 import { english } from "@/lib/bookstore-translations";
-export async function getStoreLocale() {
-  return (await cookies()).get("bookstore-language")?.value === "ro"
-    ? "ro"
-    : "en";
+export async function getStoreLocale(): Promise<"en" | "ro"> {
+  return (await headers()).get("x-store-locale") === "ro" ? "ro" : "en";
 }
 export function translate(text: string, locale: string) {
   if (locale === "ro") return text;
@@ -34,8 +33,12 @@ export function localize(node: ReactNode, locale: string): ReactNode {
   const element = node as ReactElement<{
     children?: ReactNode;
     "aria-label"?: string;
+    href?: string;
   }>;
   return cloneElement(element, {
+    ...(element.props.href
+      ? { href: storePath(element.props.href, locale) }
+      : {}),
     ...(element.props["aria-label"]
       ? { "aria-label": translate(element.props["aria-label"], locale) }
       : {}),

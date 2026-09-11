@@ -1,8 +1,17 @@
+import { blogCopy, pageMetadata } from "@/lib/seo";
 import { getStoreLocale, localize } from "@/server/bookstore-locale";
 import Link from "next/link";
 import { articles } from "@/lib/journal";
 import { BookshelfArt } from "@/components/bookshelf-art";
-export const metadata = { title: "Jurnalul librăriei" };
+export async function generateMetadata() {
+  const locale = await getStoreLocale();
+  return pageMetadata(
+    locale,
+    "/blog",
+    blogCopy[locale].title,
+    blogCopy[locale].description,
+  );
+}
 export default async function Blog() {
   const locale = await getStoreLocale();
   return localize(

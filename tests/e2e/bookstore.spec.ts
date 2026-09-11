@@ -7,7 +7,7 @@ test("public bookstore, language persistence, journal and private workspace", as
     "A little less noise.",
   );
   await expect(page.getByText("Workflow verification")).toHaveCount(0);
-  await page.getByRole("button", { name: "Switch to Romanian" }).click();
+  await page.getByRole("link", { name: "Switch to Romanian" }).click();
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "Mai puțin zgomot.",
   );
@@ -27,13 +27,13 @@ test("public bookstore, language persistence, journal and private workspace", as
   await expect(
     page.getByRole("heading", { name: "Lasă lectura să aibă ritmul ei" }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Switch to English" }).click();
+  await page.getByRole("link", { name: "Switch to English" }).click();
   await expect(
     page.getByRole("heading", { name: "Let reading find its own pace" }),
   ).toBeVisible();
   await page.reload();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "A little corner. A whole world.",
+    "How to create a cozy reading corner at home",
   );
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");

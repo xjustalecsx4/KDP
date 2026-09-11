@@ -1,4 +1,15 @@
 export const english: Record<string, string> = {
+  "O listă simplă pentru colțul de lectură":
+    "A simple checklist for your reading corner",
+  "Înainte să muți mobilierul, așază-te în locul ales cu o carte deschisă. Lumina cade pe pagină fără să fie blocată de mâna ta? Ai unde să lași cartea și ceașca? Poți sta comod fără să tot schimbi poziția? Încearcă locul în momentul zilei în care citești de obicei. Dacă spațiul este comun, un coș mic pentru carte, semn și carnet poate transforma același fotoliu dintr-un loc de lucru într-un loc de lectură.":
+    "Before moving any furniture, sit in your chosen spot with an open book. Does the light reach the page without your hand blocking it? Is there somewhere to put your book and cup? Can you sit comfortably without constantly shifting? Try the spot at the time of day you usually read. If it is a shared space, a small basket for your book, bookmark, and notebook can turn the same chair from a place to work into a place to read.",
+  "Un exercițiu cu trei culori": "A three-color exercise",
+  "Pentru prima încercare, alege un motiv simplu și trei creioane: o culoare deschisă, una medie și una închisă. Pe o foaie separată, fă câte trei mostre din fiecare, apăsând ușor, moderat și puțin mai ferm. Folosește apoi culoarea deschisă pentru suprafețele mari, pe cea medie pentru detalii și pe cea închisă pentru câteva accente. Acesta este doar un punct de pornire; dacă o altă combinație îți place mai mult, schimb-o.":
+    "For a first experiment, choose a simple motif and three pencils: one light, one medium, and one dark color. On a separate sheet, make three swatches of each using light, moderate, and slightly firmer pressure. Then use the light color for larger areas, the medium color for details, and the dark color for a few accents. This is just a starting point; if you prefer another combination, change it.",
+  "Cinci idei pentru următoarea pagină":
+    "Five ideas for your next notebook page",
+  "Dacă nu știi cu ce să începi, notează cinci lucruri observate astăzi, schițează un obiect de pe masă sau descrie în câteva rânduri o scenă pe care ai vrea să o desenezi. Alte două variante sunt o listă de cărți de răsfoit și o pagină cu trei întrebări la care ai vrea să revii. Alege o singură idee, scrie data și lasă spațiu pentru completări. Nu trebuie să transformi toate paginile în același tip de jurnal.":
+    "If you are unsure where to begin, list five things you noticed today, sketch an object on your desk, or describe a scene you would like to draw. Two other options are a list of books to browse and a page with three questions you want to return to. Choose one idea, write the date, and leave room to add more. Your notebook pages do not all need to follow the same pattern.",
   "O mică librărie. Un pic de răgaz.":
     "A little bookshop. A moment to yourself.",
   "Sari la conținut": "Skip to content",

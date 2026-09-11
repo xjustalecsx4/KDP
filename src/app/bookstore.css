@@ -768,3 +768,5 @@
     font-size: 11px;
   }
 }
+
+.article-breadcrumbs{font-size:11px;line-height:1.8;color:#626e5e;margin-bottom:25px}.article-breadcrumbs a{text-decoration:underline}.article-byline{font-size:12px;margin:-8px 0 20px}.store-article h1{font-size:clamp(36px,4.5vw,56px)}

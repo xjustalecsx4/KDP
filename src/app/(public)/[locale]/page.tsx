@@ -1,8 +1,18 @@
+import { homeCopy, pageMetadata } from "@/lib/seo";
 import { getStoreLocale, localize } from "@/server/bookstore-locale";
 import Link from "next/link";
 import { ArrowRight, BookOpen, Pencil, Leaf } from "lucide-react";
 import { BookshelfArt } from "@/components/bookshelf-art";
 import { articles } from "@/lib/journal";
+export async function generateMetadata() {
+  const locale = await getStoreLocale();
+  return pageMetadata(
+    locale,
+    "/",
+    homeCopy[locale].title,
+    homeCopy[locale].description,
+  );
+}
 export default async function Home() {
   const locale = await getStoreLocale();
   return localize(

@@ -1,21 +1,49 @@
-import { setStoreLanguage } from "@/server/bookstore-language-action";
+import { StructuredData } from "@/components/structured-data";
+import { publicOrigin } from "@/lib/seo";
+import { LanguageSwitch } from "@/components/language-switch";
+import { notFound } from "next/navigation";
 import { getStoreLocale, localize } from "@/server/bookstore-locale";
 import Link from "next/link";
 import { BookOpen, ArrowUpRight } from "lucide-react";
 import { bookstore } from "@/lib/journal";
-import "../bookstore.css";
+import "../../bookstore.css";
 export const metadata = {
   title: { default: bookstore.name, template: "%s · " + bookstore.name },
   description: bookstore.tagline,
 };
 export default async function PublicLayout({
   children,
+  params,
 }: {
+  params: Promise<{ locale: string }>;
   children: React.ReactNode;
 }) {
+  const route = await params;
+  if (!["en", "ro"].includes(route.locale)) notFound();
   const locale = await getStoreLocale();
   return localize(
     <div className="bookstore" lang={locale}>
+      <StructuredData
+        data={{
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebSite",
+              "@id": publicOrigin() + "/#website",
+              url: publicOrigin() + "/en",
+              name: bookstore.name,
+              inLanguage: ["en", "ro"],
+            },
+            {
+              "@type": "Organization",
+              "@id": publicOrigin() + "/#publisher",
+              name: bookstore.name,
+              url: publicOrigin() + "/en",
+              logo: publicOrigin() + "/brand/quiet-bookshelf-icon.png",
+            },
+          ],
+        }}
+      />
       <a className="store-skip" href="#store-main">
         Sari la conținut
       </a>
@@ -36,21 +64,7 @@ export default async function PublicLayout({
           <Link href="/#poveste">Povestea noastră</Link>
         </nav>
         <div className="header-tools">
-          <form action={setStoreLanguage}>
-            <input
-              type="hidden"
-              name="locale"
-              value={locale === "en" ? "ro" : "en"}
-            />
-            <button
-              className="language-toggle"
-              aria-label={
-                locale === "en" ? "Switch to Romanian" : "Switch to English"
-              }
-            >
-              {locale === "en" ? "EN / ro" : "en / RO"}
-            </button>
-          </form>
+          <LanguageSwitch />
           <Link className="store-account" href="/admin">
             Spațiul meu <ArrowUpRight size={15} />
           </Link>

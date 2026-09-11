@@ -1,3 +1,4 @@
+import { getStoreLocale } from "@/server/bookstore-locale";
 import { connection } from "next/server";
 import type { Metadata } from "next";
 import "./globals.css";
@@ -13,7 +14,7 @@ export default async function RootLayout({
 }) {
   await connection();
   return (
-    <html lang="en">
+    <html lang={await getStoreLocale()}>
       <body>{children}</body>
     </html>
   );

@@ -12,6 +12,10 @@ export const articles = [
     theme: "reading",
     sections: [
       {
+        title: "O listă simplă pentru colțul de lectură",
+        text: "Înainte să muți mobilierul, așază-te în locul ales cu o carte deschisă. Lumina cade pe pagină fără să fie blocată de mâna ta? Ai unde să lași cartea și ceașca? Poți sta comod fără să tot schimbi poziția? Încearcă locul în momentul zilei în care citești de obicei. Dacă spațiul este comun, un coș mic pentru carte, semn și carnet poate transforma același fotoliu dintr-un loc de lucru într-un loc de lectură.",
+      },
+      {
         title: "Începe cu locul în care îți place să stai",
         text: "Un colț de lectură nu trebuie să arate ca într-o fotografie. Poate fi capătul canapelei, un scaun lângă fereastră sau masa din bucătărie, după ce s-a făcut liniște. Alege un loc în care te simți bine și lasă acolo cartea pe care vrei să o deschizi.",
       },
@@ -34,6 +38,10 @@ export const articles = [
     theme: "creative",
     sections: [
       {
+        title: "Un exercițiu cu trei culori",
+        text: "Pentru prima încercare, alege un motiv simplu și trei creioane: o culoare deschisă, una medie și una închisă. Pe o foaie separată, fă câte trei mostre din fiecare, apăsând ușor, moderat și puțin mai ferm. Folosește apoi culoarea deschisă pentru suprafețele mari, pe cea medie pentru detalii și pe cea închisă pentru câteva accente. Acesta este doar un punct de pornire; dacă o altă combinație îți place mai mult, schimb-o.",
+      },
+      {
         title: "Alege o pagină care te invită să începi",
         text: "Privește câteva ilustrații și oprește-te la cea care îți atrage atenția. Nu trebuie să fie cea mai detaliată. Un desen cu spații mari poate fi la fel de interesant ca o scenă plină de elemente mici.",
       },
@@ -55,6 +63,10 @@ export const articles = [
       "Liste, schițe, o propoziție auzită întâmplător. Lucrurile mici merită și ele un loc pe hârtie.",
     theme: "notes",
     sections: [
+      {
+        title: "Cinci idei pentru următoarea pagină",
+        text: "Dacă nu știi cu ce să începi, notează cinci lucruri observate astăzi, schițează un obiect de pe masă sau descrie în câteva rânduri o scenă pe care ai vrea să o desenezi. Alte două variante sunt o listă de cărți de răsfoit și o pagină cu trei întrebări la care ai vrea să revii. Alege o singură idee, scrie data și lasă spațiu pentru completări. Nu trebuie să transformi toate paginile în același tip de jurnal.",
+      },
       {
         title: "Prima pagină nu trebuie să fie specială",
         text: "Scrie data, un cuvânt sau ceva ce ai observat pe drum. Poți chiar să începi de la a doua pagină. Un carnet devine al tău prin folosire, fără să ai nevoie de o introducere frumoasă.",

@@ -27,7 +27,7 @@ test("strict security headers, fresh nonces, and cross-origin mutation rejection
   expect([303, 307]).toContain(callback.status());
   expect(callback.headers().location).toContain("/login");
   await page.goto("/");
-  await page.getByRole("button", { name: "Switch to Romanian" }).click();
+  await page.getByRole("link", { name: "Switch to Romanian" }).click();
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "Mai puțin",
   );
