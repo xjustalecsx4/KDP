@@ -103,8 +103,8 @@ with English copy in `src/lib/bookstore-translations.ts`; there is no blog edito
 See [SEO implementation and launch plan](docs/SEO.md) for canonical URLs, indexing controls and the editorial plan.
 Search indexing remains disabled while the installation is a local preview.
 
-The requested GitHub destination is `https://github.com/xjustalecsx4/KDP`.
-The remote was checked and returned no branches. No files have been pushed.
+The GitHub remote is `https://github.com/xjustalecsx4/KDP`. The current application has been
+published to `main` and `feature/kdp-content-automation`.
 
 ### Creating a private content item
 
