@@ -1,3 +1,7 @@
+import {
+  processPinterest,
+  schedulerEnabled,
+} from "../src/services/pinterest-publishing";
 import { randomUUID } from "node:crypto";
 import { setTimeout as sleep } from "node:timers/promises";
 import { db } from "../src/lib/db";
@@ -23,10 +27,10 @@ async function heartbeat() {
       where: { id },
       create: {
         id,
-        schedulerEnabled: false,
+        schedulerEnabled: schedulerEnabled(),
         version: process.env.APP_VERSION ?? "0.1.0",
       },
-      update: { lastSeenAt: new Date(), schedulerEnabled: false },
+      update: { lastSeenAt: new Date(), schedulerEnabled: schedulerEnabled() },
     });
     await db.renderJob.updateMany({
       where: { workerId: id, status: "PROCESSING" },
@@ -57,6 +61,15 @@ async function recover() {
           leaseExpiresAt: null,
         },
       });
+      if (job.scheduledPostId)
+        await tx.publishAttempt.updateMany({
+          where: { scheduledPostId: job.scheduledPostId, status: "PROCESSING" },
+          data: {
+            status: "UNCERTAIN",
+            completedAt: new Date(),
+            errorMessage: "Worker lease expired; outcome uncertain",
+          },
+        });
       if (job.scheduledPostId)
         await tx.scheduledPost.update({
           where: { id: job.scheduledPostId },
@@ -192,7 +205,7 @@ async function main() {
     while (!stopping) {
       const settings = await getSettings();
       await recover();
-      await processOne();
+      if (!(await processPinterest(id))) await processOne();
       // Short sleep slices let SIGTERM stop promptly even with a long configured poll interval.
       for (
         let elapsed = 0;

@@ -63,10 +63,12 @@ export async function SchedulerSection({ query }: { query: Query }) {
           </Badge>
         </SectionTitle>
         <div className="notice">
-          <strong>Publishing is not enabled</strong>
+          <strong>Pinterest scheduler</strong>
           <p>
-            The worker records its heartbeat, but official platform publishing
-            remains a later phase. Schedules are retained.
+            Only explicitly scheduled, approved Pinterest images are eligible.
+            Server activation and a connected account are required. Overdue
+            posts follow operational settings; uncertain outcomes require
+            review.
           </p>
         </div>
         <nav className="filter-tabs">
@@ -142,9 +144,30 @@ export async function SchedulerSection({ query }: { query: Query }) {
                     </div>
                   )}
                   {post.job?.requiresReconciliation && (
-                    <p className="feedback error">
-                      Reconcile the publishing outcome before making changes.
-                    </p>
+                    <div>
+                      <p className="feedback error">
+                        Outcome uncertain. Inspect Pinterest before proceeding.
+                        Automatic retry is blocked.
+                      </p>
+                      {post.platform === "PINTEREST" && (
+                        <ActionForm
+                          area="scheduler"
+                          operation="reconcile"
+                          id={post.id}
+                          label="Verify published Pin"
+                          confirmation="Confirm you located the exact image on Pinterest. Its board, text and link will be verified before marking this schedule published."
+                        >
+                          <label>
+                            Published Pin ID
+                            <input
+                              name="pinId"
+                              pattern="[0-9]{1,100}"
+                              required
+                            />
+                          </label>
+                        </ActionForm>
+                      )}
+                    </div>
                   )}
                 </article>
               );

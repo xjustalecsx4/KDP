@@ -1,4 +1,6 @@
 "use server";
+import { reconcilePinterest } from "@/services/pinterest-publishing";
+import { syncPinterest } from "@/services/pinterest";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "./authorization";
@@ -27,9 +29,14 @@ export async function adminAction(
     const operation = form.get("operation");
     const confirmed = form.get("confirmed") === "yes";
     if (
-      ["cancel", "delete", "disconnect", "cleanup", "clear-failed"].includes(
-        String(operation),
-      ) &&
+      [
+        "cancel",
+        "delete",
+        "disconnect",
+        "cleanup",
+        "clear-failed",
+        "reconcile",
+      ].includes(String(operation)) &&
       !confirmed
     )
       throw new ActionError("Confirm this action before proceeding.");
@@ -46,6 +53,22 @@ export async function adminAction(
         message = "Job updated successfully.";
       }
     } else if (area === "scheduler") {
+      if (operation === "reconcile") {
+        await reconcilePinterest(
+          id(),
+          z
+            .string()
+            .regex(/^\d{1,100}$/)
+            .parse(form.get("pinId")),
+          user.id,
+        );
+        revalidatePath("/admin");
+        return {
+          ok: true,
+          message:
+            "The matching Pinterest Pin was verified. Publication marked complete.",
+        };
+      }
       const action = z.enum(["retry", "cancel", "reschedule"]).parse(operation);
       const when =
         action === "reschedule"
@@ -60,6 +83,14 @@ export async function adminAction(
       const platform = z
         .enum(["PINTEREST", "TIKTOK"])
         .parse(form.get("platform"));
+      if (operation === "test" && platform === "PINTEREST") {
+        await syncPinterest(user.id);
+        revalidatePath("/admin/platforms");
+        return {
+          ok: true,
+          message: "Pinterest connection verified and boards synchronized.",
+        };
+      }
       if (operation !== "disconnect")
         throw new ActionError(providerUnavailable);
       await disconnectPlatform(platform, user.id);

@@ -34,7 +34,7 @@ export default async function Calendar({
           <h1>Calendar</h1>
           <p>
             Recorded schedules by month, shown in UTC. Publishing remains
-            disabled in Phase 1.
+            available for approved Pinterest images after platform setup.
           </p>
         </div>
       </div>

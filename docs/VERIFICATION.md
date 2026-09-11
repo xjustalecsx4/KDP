@@ -1,39 +1,31 @@
 # Verification
 
-Verified against an isolated PostgreSQL 18.4 instance bound to `127.0.0.1:55439`.
-The test database and browser credentials are local, ignored, and are not application seed data.
+Final verification: production build, TypeScript, ESLint, 50 unit/integration tests and all four browser tests passed.
 
-- Prisma client generation and all four SQL migrations applied successfully to real PostgreSQL.
-- TypeScript: passing.
-- ESLint: passing without warnings.
-- Optimized Next.js production build: passing for all content and administration routes.
-- Unit/migration tests: 36 passing (content validation, duplicate detection, job policies, safe errors, storage paths, log disclosure,
-  file reference foreign keys, and cleanup tombstones).
-- Real PostgreSQL integration tests: 4 passing (concurrent cancellation, critical publishing/reconciliation,
-  atomic schedule/job changes, and real filesystem cleanup preserving scheduled-file references).
-- Browser: two checked-in tests passing. Admin coverage includes login, unauthenticated redirects,
-  all eight Admin subpages, persisted settings, destructive-action confirmation and mobile layout.
-  Workflow coverage creates a book, uploads a cover and three interior images, generates drafts,
-  renders and approves a Pinterest image, TikTok carousel and actual 1080×1920, 16-second MP4.
-- Generated image and extracted video frame inspected visually for layout and safe text placement.
-- Dependency audit: zero vulnerabilities after patched transitive overrides.
+Tested with an isolated PostgreSQL 18.4 instance on loopback. Test records and credentials are ignored
+and are not production seed data. No real Pinterest calls are made by automated tests.
 
-Run the checked-in browser test against a running, configured **disposable** test application:
+- 45 unit/migration/transport tests pass without external PostgreSQL.
+- Five PostgreSQL integration tests pass (50 total with the unit tests). Coverage includes concurrent
+  queue changes, protected file cleanup, one-use session-bound OAuth, encrypted token storage,
+  duplicate schedule rejection, publication completion, blocked critical cancellation, uncertain
+  outcomes and verification of matching/mismatched Pins during reconciliation.
+- Admin browser coverage validates login with the updated account, private guards, navigation,
+  persisted settings, confirmation prompts and mobile layout.
+- Public bookshop browser coverage validates EN/RO switching and persistence, journal pages,
+  mobile layout, unknown article 404 and private dashboard protection.
+- Security browser coverage validates CSP, unique nonces, origin rejection and unauthenticated callback.
+- Rendering workflow covers book creation, cover/interior uploads, image/carousel/video generation,
+  private previews and approval, including a 16-second 1080×1920 MP4.
 
-```sh
-npx playwright install chromium
-# Set TEST_BASE_URL, TEST_ADMIN_EMAIL, and TEST_ADMIN_PASSWORD in the environment.
-npm run test:e2e
-```
+Run npm test, npm run lint, npm run typecheck and npm run build.
+For real database tests, set TEST_DATABASE_URL to a dedicated migrated test database with no connected
+Pinterest account, isolated storage and no active publishing worker. Tests temporarily change operational
+settings and platform fixtures and restore them. Never run them against production.
 
-The browser test restores the timezone and opens/cancels a cleanup confirmation without deleting files.
-To include the full creative workflow, set `TEST_RENDER_WORKFLOW=1`. Start the test application with
-`AI_PROVIDER=template`, a valid `REMOTION_BROWSER_EXECUTABLE`, and a separate worker. The workflow
-creates persistent test books/content in the disposable database; it does not touch production data.
-Never run database integration tests against production. They exercise real cleanup and require isolated storage
-and a dedicated migrated database with no running worker.
+For browser tests, install Chromium with npx playwright install chromium, start a disposable configured
+application and provide TEST_BASE_URL, TEST_ADMIN_EMAIL and TEST_ADMIN_PASSWORD through the environment.
+Run npm run test:e2e. To include rendering, set TEST_RENDER_WORKFLOW=1 and run the worker with a configured
+Remotion browser and AI_PROVIDER=template. This workflow leaves its marked content in the disposable DB.
 
-FFmpeg and a configured Remotion executable are not prerequisites for Admin tests. Their health checks
-truthfully show Missing/Error if absent. The creative workflow was tested with local Chromium and
-Remotion's native renderer. External AI calls, official platform publishing and Ubuntu deployment
-were not exercised; they require user configuration or approval for later integration phases.
+External AI calls, live Pinterest API behavior and Ubuntu deployment require separate verification.

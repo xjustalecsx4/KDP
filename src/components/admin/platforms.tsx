@@ -1,3 +1,4 @@
+import { pinterestConfigured } from "@/services/pinterest-api";
 import { getPlatforms, providerUnavailable } from "@/services/platforms";
 import { SectionTitle, Status, date } from "../ui";
 import { ActionForm } from "../action-form";
@@ -62,15 +63,29 @@ export async function PlatformsSection() {
               </div>
             </dl>
             <div className="notice">
-              <p>{providerUnavailable}</p>
+              <p>
+                {platform === "PINTEREST"
+                  ? pinterestConfigured()
+                    ? "OAuth is configured. Connect, then test the connection to synchronize boards. Trial-created Pins are only visible to their creator."
+                    : "Awaiting Pinterest app approval, client ID, client secret and encryption key. Publishing is disabled until configured."
+                  : providerUnavailable}
+              </p>
             </div>
             <div className="button-row">
-              <ActionForm
-                area="platforms"
-                operation={account?.connected ? "reconnect" : "connect"}
-                platform={platform}
-                label={account?.connected ? "Reconnect" : "Connect"}
-              />
+              {platform === "PINTEREST" ? (
+                <form action="/api/pinterest/connect" method="post">
+                  <button className="button" disabled={!pinterestConfigured()}>
+                    {account?.connected ? "Reconnect" : "Connect"}
+                  </button>
+                </form>
+              ) : (
+                <ActionForm
+                  area="platforms"
+                  operation={account?.connected ? "reconnect" : "connect"}
+                  platform={platform}
+                  label={account?.connected ? "Reconnect" : "Connect"}
+                />
+              )}
               <ActionForm
                 area="platforms"
                 operation="test"

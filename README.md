@@ -20,8 +20,9 @@ Phase 1 and the dedicated administration console are implemented:
 - Main navigation: Dashboard, Books, Create Content, Content Queue, Calendar, Templates,
   Analytics, Admin, Settings.
 
-Publishing is deliberately inactive pending explicit Phase 2 approval. Platform connection actions
-truthfully report that official integrations are unavailable. Calendar and analytics show only stored
+Pinterest OAuth, board synchronization and scheduled image publishing are implemented, with encrypted
+credentials and conservative duplicate protection. Live connection awaits your Pinterest app approval
+and credentials. Publishing is disabled by default. TikTok integration remains unavailable. Calendar and analytics show only stored
 records, never fabricated activity. Approval does not publish. Audio and autopilot are off.
 
 ## Prerequisites
@@ -90,6 +91,22 @@ not an empty database. Login reports setup requirements when the essential envir
 
 ## First content workflow
 
+### Public bookshop preview
+
+Open `/` for **The Quiet Bookshelf**, the public-facing bookshop design. It includes
+an English/Romanian language switch with a persistent cookie, a journal at `/blog`,
+and three original bilingual articles. The private dashboard is now at `/dashboard`;
+administration remains at `/admin`. Public pages do not expose private database books
+or test uploads. The collection is explicitly marked as coming soon until real titles
+and Amazon links are supplied. Journal content currently lives in `src/lib/journal.ts`,
+with English copy in `src/lib/bookstore-translations.ts`; there is no blog editor yet.
+Search indexing remains disabled while the installation is a local preview.
+
+The requested GitHub destination is `https://github.com/xjustalecsx4/KDP`.
+The remote was checked and returned no branches. No files have been pushed.
+
+### Creating a private content item
+
 Add a book, upload a cover and at least three interior pages, then open Create Content.
 Choose a format, select source images, and generate an editable concept. Submit the render,
 wait for the worker, inspect the private preview, and approve or reject it. Download approved
@@ -107,10 +124,11 @@ files for manual use. Video rendering requires the configured browser executable
 | `REMOTION_BROWSER_EXECUTABLE` | Installed Chrome/Chromium executable; health probes never download it |
 | `HEALTHCHECK_TOKEN` | Optional strong random token for detailed monitoring |
 | `APP_VERSION`, `GIT_COMMIT` | Optional version metadata |
-| `APP_ENCRYPTION_KEY` | Reserved for server-side OAuth token encryption in the provider phases |
+| `APP_ENCRYPTION_KEY` | 64 hexadecimal characters / 32 random bytes for AES-256-GCM token encryption |
 | `AI_PROVIDER` | `template` for offline editable copy, or `openai-compatible` |
 | `AI_BASE_URL`, `AI_API_KEY`, `AI_MODEL` | HTTPS API base URL, private API key, and model for the configured provider |
-| `PINTEREST_CLIENT_ID`, `PINTEREST_CLIENT_SECRET` | Reserved for Phase 2 |
+| `PINTEREST_CLIENT_ID`, `PINTEREST_CLIENT_SECRET` | Approved Pinterest app credentials, server-side only |
+| `PINTEREST_PUBLISHING_ENABLED` | Default `false`; explicitly enable after reviewed setup |
 | `TIKTOK_CLIENT_KEY`, `TIKTOK_CLIENT_SECRET` | Reserved for Phase 3 |
 
 Operational defaults: worker polling 5 seconds; render maximum attempts 3; publish maximum attempts 2;
@@ -175,7 +193,7 @@ Authorization: Bearer <HEALTHCHECK_TOKEN>
 
 The detailed response reports web, database, worker, FFmpeg, renderer, storage, version, and check time.
 Probes are cached for 30 seconds. A live worker heartbeat is at most 45 seconds old. The heartbeat is
-independent of the polling interval. The scheduler remains explicitly inactive until publishing is implemented.
+independent of the polling interval. The scheduler is active only when Pinterest server configuration is complete and publishing is explicitly enabled.
 
 ## Ubuntu VPS deployment
 
@@ -233,9 +251,13 @@ Restore using `pg_restore` into an empty database and extract storage with the s
 
 1. Phase 1 complete: book CRUD, private uploads, provider abstraction, review queue, Sharp creatives,
    carousel preparation, Remotion rendering and previews. External AI provider behavior needs your credentials to verify.
-2. After explicit approval: Pinterest OAuth/encrypted tokens, boards, official publishing, reconciliation,
-   posting limits, duplicate prevention, scheduler execution and publish history.
+2. Pinterest code implemented: OAuth/encrypted tokens, boards, image publishing, reconciliation,
+   posting limits, duplicate prevention, scheduler execution and publish history. Live API testing remains pending.
 3. After explicit approval: TikTok official API workflow and manual export fallback.
 4. Later: analytics snapshots and performance-informed generation.
 
-No Phase 2 or Phase 3 integration has been started automatically.
+Phase 2 Pinterest implementation was explicitly approved. Live Pinterest verification is pending app approval and credentials; Phase 3 remains unimplemented.
+
+## Pinterest and security
+
+See [Pinterest setup and verification](docs/PINTEREST.md) and [security controls](docs/SECURITY.md).

@@ -62,6 +62,8 @@ export async function disconnectPlatform(
         tokenExpiresAt: null,
       },
     });
+    if (platform === "PINTEREST")
+      await tx.appSetting.deleteMany({ where: { key: "pinterest-boards" } });
     await audit(tx, "PLATFORM_DISCONNECTED", { actorId, platform });
   });
 }

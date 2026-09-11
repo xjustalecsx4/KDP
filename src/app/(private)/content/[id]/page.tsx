@@ -1,3 +1,6 @@
+import { PinterestSchedule } from "@/components/pinterest-schedule";
+import { boardsSchema } from "@/services/pinterest-api";
+import { schedulerEnabled } from "@/services/pinterest-publishing";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -30,6 +33,10 @@ export default async function ContentDetail({
     },
   });
   if (!item) notFound();
+  const boardData = await db.appSetting.findUnique({
+    where: { key: "pinterest-boards" },
+  });
+  const boards = boardsSchema.safeParse(boardData?.value);
   const input = renderInputSchema.safeParse(item.variants[0]?.data);
   const active = item.jobs.some((j) =>
     ["PENDING", "PROCESSING"].includes(j.status),
@@ -59,7 +66,7 @@ export default async function ContentDetail({
           />
           {item.files.length ? (
             <div className="preview-gallery">
-                {item.files.map(({ file }, index) => (
+              {item.files.map(({ file }, index) => (
                 <div key={file.id}>
                   {file.mimeType === "video/mp4" ? (
                     <video
@@ -80,7 +87,7 @@ export default async function ContentDetail({
                   <a
                     className="text-link"
                     href={`/api/files/${file.id}`}
-                      download={`${item.platform.toLowerCase()}-${String(index + 1).padStart(2, "0")}.${file.mimeType === "video/mp4" ? "mp4" : "png"}`}
+                    download={`${item.platform.toLowerCase()}-${String(index + 1).padStart(2, "0")}.${file.mimeType === "video/mp4" ? "mp4" : "png"}`}
                   >
                     Download {file.mimeType === "video/mp4" ? "video" : "image"}
                   </a>
@@ -193,6 +200,13 @@ export default async function ContentDetail({
           )}
         </section>
       </div>
+      {item.platform === "PINTEREST" && item.status === "APPROVED" && (
+        <PinterestSchedule
+          id={id}
+          boards={boards.success ? boards.data.items : []}
+          enabled={schedulerEnabled()}
+        />
+      )}
       <section className="panel">
         <SectionTitle title="Render history" />
         {item.jobs.map((job) => (

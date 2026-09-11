@@ -53,6 +53,7 @@ class CompatibleAIProvider implements ContentProvider {
       `${endpoint.replace(/\/$/, "")}/chat/completions`,
       {
         method: "POST",
+        redirect: "error",
         signal: AbortSignal.timeout(45000),
         headers: {
           "Content-Type": "application/json",

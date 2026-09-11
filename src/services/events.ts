@@ -2,6 +2,10 @@ import { db } from "@/lib/db";
 import type { Prisma } from "@/generated/prisma/client";
 // Only fixed messages from this catalog can be recorded; no exception text or user input.
 export const events = {
+  PUBLISH_RECONCILED: "Published Pin verified and reconciled",
+  PLATFORM_CONNECTED: "Platform connected through OAuth",
+  PLATFORM_TESTED: "Platform connection tested and boards synchronized",
+  SCHEDULE_CREATED: "Approved content scheduled for publishing",
   FAILED_JOBS_CLEARED: "Expired failed job records cleared",
   JOB_RETRIED: "Job returned to the queue",
   JOB_CANCELLED: "Pending job cancelled",
