@@ -1,0 +1,32 @@
+module.exports = {
+  apps: [
+    {
+      name: "kdp-app",
+      cwd: __dirname,
+      script: "node_modules/next/dist/bin/next",
+      args: "start --hostname 127.0.0.1",
+      instances: 1,
+      exec_mode: "fork",
+      env: { NODE_ENV: "production" },
+      autorestart: true,
+      min_uptime: "10s",
+      max_restarts: 10,
+      exp_backoff_restart_delay: 1000,
+      kill_timeout: 30000,
+    },
+    {
+      name: "kdp-worker",
+      cwd: __dirname,
+      script: "node_modules/tsx/dist/cli.mjs",
+      args: "--env-file-if-exists=.env.local worker/index.ts",
+      instances: 1,
+      exec_mode: "fork",
+      env: { NODE_ENV: "production" },
+      autorestart: true,
+      min_uptime: "10s",
+      max_restarts: 10,
+      exp_backoff_restart_delay: 1000,
+      kill_timeout: 30000,
+    },
+  ],
+};
