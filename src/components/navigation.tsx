@@ -15,7 +15,7 @@ import {
   Leaf,
 } from "lucide-react";
 const links = [
-  ["Dashboard", "/", LayoutDashboard],
+  ["Dashboard", "/dashboard", LayoutDashboard],
   ["Books", "/books", BookOpen],
   ["Create Content", "/create", Sparkles],
   ["Content Queue", "/content", Layers],
@@ -29,7 +29,7 @@ export function Navigation({ name }: { name: string }) {
   const pathname = usePathname();
   return (
     <aside className="sidebar">
-      <Link href="/" className="brand">
+      <Link href="/dashboard" className="brand">
         <span className="brand-mark">
           <Leaf size={24} />
         </span>
@@ -43,7 +43,7 @@ export function Navigation({ name }: { name: string }) {
           <Link
             key={href}
             href={href}
-            className={`nav-link ${(href === "/" ? pathname === href : pathname.startsWith(href)) ? "active" : ""}`}
+            className={`nav-link ${(pathname === href || pathname.startsWith(href + "/")) ? "active" : ""}`}
           >
             <Icon size={18} strokeWidth={1.7} />
             {label}
